@@ -83,7 +83,7 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
+num_of_enemies = 3
 enemy_image_path = pygame.image.load('enemy1.png')
 new_width = 100
 new_height = 130  
@@ -93,19 +93,19 @@ for i in range(num_of_enemies):
     enemyX.append(random.randint(0, 1000))
     enemyY.append(random.randint(50, 300))
     enemyX_change.append(4)
-    enemyY_change.append(40)
+    enemyY_change.append(110)
 
 # Bullet , Ready 
 bullet_image_path = pygame.image.load('bullet1.png')
-bullet_new_width = 40
-bullet_new_height = 40
+bullet_new_width = 25
+bullet_new_height = 25
 bullet_character_image = pygame.transform.scale(bullet_image_path, (bullet_new_width, bullet_new_height))
 
 bulletImg = bullet_character_image
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 15
+bulletY_change = 4
 bullet_state = "ready"
 
 score_value = 0
@@ -159,7 +159,7 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return True
     else:
         return False
-
+    
 
 
 IMAGE_FILES = []
@@ -225,7 +225,7 @@ with mp_hands.Hands(
 
             for i in range(num_of_enemies):
 
-                if enemyY[i] > 440:
+                if enemyY[i] > 380:
                     for j in range(num_of_enemies):
                         enemyY[j] = 2000
                     game_over_text()
@@ -240,24 +240,24 @@ with mp_hands.Hands(
                     enemyX_change[i] = -4
                     enemyY[i] += enemyY_change[i]
 
-            collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
-            if collision:
-                explosionSound = mixer.Sound("explosion.wav")
-                explosionSound.play()
-                bulletY = 480
-                bullet_state = "ready"
-                score_value += 1
-                enemyX[i] = random.randint(0, 1100)
-                enemyY[i] = random.randint(50, 150)
+                collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
+                if collision:
+                    explosionSound = mixer.Sound("explosion.wav")
+                    explosionSound.play()
+                    bulletY = 480
+                    bullet_state = "ready"
+                    score_value += 1
+                    enemyX[i] = random.randint(0, 1100)
+                    enemyY[i] = random.randint(30, 120)
 
-            enemy(enemyX[i], enemyY[i], i)
-            if bulletY <= 0:
-                bulletY = 480
-                bullet_state = "ready"
+                enemy(enemyX[i], enemyY[i], i)
+                if bulletY <= 0:
+                    bulletY = 480
+                    bullet_state = "ready"
 
-            if bullet_state == "fire":
-                fire_bullet(bulletX, bulletY)
-                bulletY -= bulletY_change
+                if bullet_state == "fire":
+                    fire_bullet(bulletX, bulletY)
+                    bulletY -= bulletY_change
 
 
 
